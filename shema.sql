@@ -1,97 +1,102 @@
-DROP TABLE IF EXISTS `Products`;
+DROP TABLE IF EXISTS "products" CASCADE;
 
-CREATE TABLE "Products" (
-  "id" INTEGER DEFAULT NULL,
-  "name" VARCHAR(50) NULL DEFAULT NULL,
-  "slogan" VARCHAR(100) NULL DEFAULT NULL,
-  "description" VARCHAR(1000) NULL DEFAULT NULL,
-  "category" VARCHAR(50) NULL DEFAULT NULL,
-  "default_price" INTEGER NULL DEFAULT NULL,
+CREATE TABLE "products" (
+  "id" SERIAL NOT NULL,
+  "name" VARCHAR(99) DEFAULT NULL,
+  "slogan" VARCHAR(999) DEFAULT NULL,
+  "description" VARCHAR(999) DEFAULT NULL,
+  "category" VARCHAR(99) DEFAULT NULL,
+  "default_price" INTEGER DEFAULT NULL,
   PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "Features";
+COPY products(id, name, slogan, description, category, default_price)
+FROM '/Users/matchewxd/work/capstone/SDC-Products/hardData/product.csv'
+DELIMITER ','
+CSV HEADER;
 
-CREATE TABLE "Features" (
-  "id" INTEGER NULL DEFAULT NULL,
-  "features" VARCHAR(50) NULL DEFAULT NULL,
-  "value" VARCHAR(50) NULL DEFAULT NULL,
-  "id_Products" INTEGER NULL DEFAULT NULL,
-  PRIMARY KEY ("id")
+DROP TABLE IF EXISTS "features";
+
+CREATE TABLE "features" (
+  "id" SERIAL NOT NULL,
+  "id_products" INTEGER DEFAULT NULL,
+  "features" VARCHAR(99) DEFAULT NULL,
+  "value" VARCHAR(99) DEFAULT NULL,
+  PRIMARY KEY ("id"),
+  FOREIGN KEY("id_products")
+    REFERENCES products("id")
 );
 
-DROP TABLE IF EXISTS `Styles`;
+COPY features(id, id_products, features, value)
+FROM '/Users/matchewxd/work/capstone/SDC-Products/hardData/features.csv'
+DELIMITER ','
+CSV HEADER;
 
-CREATE TABLE `Styles` (
-  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `name` VARCHAR(100) NULL DEFAULT NULL,
-  `original_price` INTEGER NULL DEFAULT NULL,
-  `sale_price` INTEGER NULL DEFAULT NULL,
-  `default?` bit NULL DEFAULT NULL,
-  `id_Products` INTEGER NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
+DROP TABLE IF EXISTS "styles" CASCADE;
+
+CREATE TABLE "styles" (
+  "id" SERIAL NOT NULL,
+  "id_products" INTEGER DEFAULT NULL,
+  "name" VARCHAR(99) DEFAULT NULL,
+  "sale_price" VARCHAR(33) DEFAULT NULL,
+  "original_price" INTEGER DEFAULT NULL,
+  "default_style" BIT DEFAULT NULL,
+  PRIMARY KEY ("id"),
+  FOREIGN KEY("id_products")
+  REFERENCES products("id")
 );
 
-DROP TABLE IF EXISTS `photos`;
+COPY styles(id, id_products, name, sale_price, original_price, default_style)
+FROM '/Users/matchewxd/work/capstone/SDC-Products/hardData/styles.csv'
+DELIMITER ','
+CSV HEADER;
 
-CREATE TABLE `photos` (
-  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `thumbnail_url` VARCHAR(1000) NULL DEFAULT NULL,
-  `url` VARCHAR(1000) NULL DEFAULT NULL,
-  `id_Products` INTEGER NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
+DROP TABLE IF EXISTS "photos";
+
+CREATE TABLE "photos" (
+  "id" SERIAL NOT NULL,
+  "styleid" INTEGER DEFAULT NULL,
+  "url" VARCHAR(999) DEFAULT NULL,
+  "thumbnail_url" VARCHAR NULL DEFAULT NULL,
+  PRIMARY KEY ("id"),
+  FOREIGN KEY("styleid")
+  REFERENCES styles("id")
 );
 
-DROP TABLE IF EXISTS `SKUs`;
+COPY photos(id, styleId, url, thumbnail_url)
+FROM '/Users/matchewxd/work/capstone/SDC-Products/hardData/photos.csv'
+DELIMITER ','
+CSV HEADER;
 
-CREATE TABLE `SKUs` (
-  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `quantity` INTEGER NULL DEFAULT NULL,
-  `size` VARCHAR(25) NULL DEFAULT NULL,
-  `id_Products` INTEGER NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
+DROP TABLE IF EXISTS "skus";
+
+CREATE TABLE "skus" (
+  "id" SERIAL NOT NULL,
+  "styleid" INTEGER DEFAULT NULL,
+  "size" VARCHAR(33) DEFAULT NULL,
+  "quantity" INTEGER DEFAULT NULL,
+  PRIMARY KEY ("id"),
+  FOREIGN KEY("styleid")
+  REFERENCES styles("id")
 );
 
-DROP TABLE IF EXISTS `Related`;
+COPY skus(id, styleId, size, quantity)
+FROM '/Users/matchewxd/work/capstone/SDC-Products/hardData/skus.csv'
+DELIMITER ','
+CSV HEADER;
 
-CREATE TABLE `Related` (
-  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `related` INTEGER NULL DEFAULT NULL,
-  `id_Products` INTEGER NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
+DROP TABLE IF EXISTS "related";
+
+CREATE TABLE "related" (
+  "id" SERIAL NOT NULL,
+  "current_product_id" INTEGER DEFAULT Null,
+  "related_product_id" INTEGER DEFAULT NULL,
+  PRIMARY KEY ("id"),
+  FOREIGN KEY("current_product_id")
+  REFERENCES products("id")
 );
 
-ALTER TABLE `Features` ADD FOREIGN KEY (id_Products) REFERENCES `Products` (`id`);
-ALTER TABLE `Styles` ADD FOREIGN KEY (id_Products) REFERENCES `Products` (`id`);
-ALTER TABLE `photos` ADD FOREIGN KEY (id_Products) REFERENCES `Products` (`id`);
-ALTER TABLE `SKUs` ADD FOREIGN KEY (id_Products) REFERENCES `Products` (`id`);
-ALTER TABLE `Related` ADD FOREIGN KEY (id_Products) REFERENCES `Products` (`id`);
-
--- ---
--- Table Properties
--- ---
-
--- ALTER TABLE `Products` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `Features` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `Styles` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `photos` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `SKUs` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `Related` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- ---
--- Test Data
--- ---
-
--- INSERT INTO `Products` (`id`,`name`,`slogan`,`description`,`category`,`default_price`) VALUES
--- ('','','','','','');
--- INSERT INTO `Features` (`id`,`features`,`value`,`id_Products`) VALUES
--- ('','','','');
--- INSERT INTO `Styles` (`id`,`name`,`original_price`,`sale_price`,`default?`,`id_Products`) VALUES
--- ('','','','','','');
--- INSERT INTO `photos` (`id`,`thumbnail_url`,`url`,`id_Products`) VALUES
--- ('','','','');
--- INSERT INTO `SKUs` (`id`,`quantity`,`size`,`id_Products`) VALUES
--- ('','','','');
--- INSERT INTO `Related` (`id`,`related`,`id_Products`) VALUES
--- ('','','');
-
+COPY related(id, current_product_id, related_product_id)
+FROM '/Users/matchewxd/work/capstone/SDC-Products/hardData/related.csv'
+DELIMITER ','
+CSV HEADER;

@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "express": "^4.17.1",
-    "mongoose": "^6.0.13"
+    "mongoose": "^6.0.13",
+    "pg": "^8.7.1"
   },
   "name": "sdc-products",
   "description": "Testing Read me file",
