@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
 
 // Products
 app.get('/products', (req, res) => {
-  products.getProducts()
+  products.getProducts(req)
     .then((response) => {
       console.log("products called");
       res.send(response.rows);
