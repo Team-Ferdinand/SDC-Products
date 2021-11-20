@@ -10,7 +10,7 @@ app.use(express.json());
 
 // Intro
 app.get('/', (req, res) => {
-  res.send('Welcome to "MatchewXD"s products server.\n"/products" returns the first page of 5 products\n"/products/:product_id" returns the product at the id\n"/products/:product_id/styles" returns the styles\n"/products/:product_id/related" returns related product ids');
+  res.send('Welcome to "MatchewXD"s products server!\n\n"/products" returns the first page of 5 products\n Paramaters: Page - Integer, Count - Integer\n\n"/products/:product_id" returns the specific product at the id\n\n"/products/:product_id/styles" returns the styles at the specific product id\n\n"/products/:product_id/related" returns related product ids at the specific product id');
 });
 
 // Products
@@ -30,7 +30,7 @@ app.get('/products/:product_id', (req, res) => {
   products.getProduct(req.params.product_id)
     .then((response) => {
       console.log('Specific Product Recieved');
-      res.send(response.rows);
+      res.send(response.rows[0]);
     })
     .catch((err) => {
       console.log(err);
@@ -42,7 +42,7 @@ app.get('/products/:product_id/styles', (req, res) => {
   styles.getStyles(req.params.product_id)
     .then((response) => {
       console.log('Styles Recieved');
-      res.send(response.rows);
+      res.send(response.rows[0]);
     })
     .catch((err) => {
       console.log(err);
