@@ -2,8 +2,8 @@ const db = require('../index.js');
 
 module.exports = {
   getProducts: (req) => {
-    var page = req.query.page - 1;
-    var count = req.query.count;
+    var page = req.query.page - 1 || 0;
+    var count = req.query.count || 5;
     var start = page * count;
 
     return db.pool.query(`SELECT * FROM products WHERE id > ${start} limit ${count}`);

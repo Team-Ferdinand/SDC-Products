@@ -3,6 +3,7 @@ const app = express();
 const port = 3000;
 
 const products = require('./database/models/products.js');
+const styles = require('./database/models/styles.js');
 
 app.use(express.json());
 
@@ -37,7 +38,14 @@ app.get('/products/:product_id', (req, res) => {
 
 // Specific products Style
 app.get('/products/:product_id/styles', (req, res) => {
-  res.send('Styles');
+  styles.getStyles(req.params.product_id)
+    .then((response) => {
+      console.log('Styles Recieved');
+      res.send(response.rows);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 // Specific products related product ids

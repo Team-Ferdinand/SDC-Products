@@ -1,5 +1,5 @@
 const { Pool } = require('pg');
-const db = require('../../config/config.js');
+const db = require('../../potato/config.js');
 
 const pool = new Pool(db.CONFIG);
 
