@@ -4,6 +4,7 @@ const port = 3000;
 
 const products = require('./database/models/products.js');
 const styles = require('./database/models/styles.js');
+const related = require('./database/models/related.js');
 
 app.use(express.json());
 
@@ -50,7 +51,18 @@ app.get('/products/:product_id/styles', (req, res) => {
 
 // Specific products related product ids
 app.get('/products/:product_id/related', (req, res) => {
-  res.send('Related');
+  related.getRelated(req.params.product_id)
+    .then((response) => {
+      var related = [];
+      for (var i = 0; i < response.rows.length; i++) {
+        related.push(response.rows[i].related_product_id);
+      }
+      res.send(related);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  // res.send('Related');
 });
 
 app.listen(port, () => {
