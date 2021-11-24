@@ -14,35 +14,3 @@ module.exports = {
   }
 }
 
-
-
-{
-  "id_products": 3,
-    "results": [
-      {
-        "style_id": 11,
-        "name": "Black",
-        "original_price": 40,
-        "sale_price": "null",
-        "default": "1",
-        "photos": [{}, {}],
-        "skus": {
-              {},
-      {}
-            }
-          },
-{
-  "style_id": 11,
-    "name": "Black",
-      "original_price": 40,
-        "sale_price": "null",
-          "default": "1",
-            "photos": [{}, {}],
-              "skus": {
-    { },
-    { }
-  }
-}
-
-  ]
-}
