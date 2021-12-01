@@ -81,3 +81,10 @@ app.listen(port, () => {
  * /products/:product_id/related
  *   product_id	- integer - Required ID of the Product requested
  */
+
+/*
+  app.get('/loaderio-c90af57952b107908dae5806ba5ce5cc', (req, res) => {
+  res.send('loaderio-c90af57952b107908dae5806ba5ce5cc');
+});
+
+ */

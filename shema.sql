@@ -62,8 +62,8 @@ DROP TABLE IF EXISTS "photos";
 CREATE TABLE "photos" (
   "id" SERIAL NOT NULL,
   "styleid" INTEGER DEFAULT NULL,
-  "url" VARCHAR(999) DEFAULT NULL,
-  "thumbnail_url" VARCHAR(999) NULL DEFAULT NULL,
+  "url" VARCHAR DEFAULT NULL,
+  "thumbnail_url" VARCHAR NULL DEFAULT NULL,
   PRIMARY KEY ("id"),
   FOREIGN KEY("styleid")
   REFERENCES styles("id")
@@ -129,7 +129,7 @@ CREATE TABLE "photos" (
 */
 /*
 COPY photos(id, styleId, url, thumbnail_url)
-FROM '/Users/matchewxd/work/capstone/SDC-Products/hardData/photos.csv'
+FROM '/home/ubuntu/SDC-Products/hardData/photos.csv'
 DELIMITER ','
 CSV HEADER;
 */
